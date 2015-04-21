@@ -33,5 +33,21 @@ module.exports = {
 			__.strictEqual( param, "DONE", "always" );
 			__.done();
 		} );
+	},
+	"Attempt.success": function( __ ) {
+		__.expect( 1 );
+		Attempt.success( "OK" ).success( function( value ) {
+			__.strictEqual( value, "OK", "success" );
+		} ).always( function() {
+			__.done();
+		} );
+	},
+	"Attempt.failure": function( __ ) {
+		__.expect( 1 );
+		Attempt.failure( "OK" ).failure( function( value ) {
+			__.strictEqual( value, "OK", "success" );
+		} ).always( function() {
+			__.done();
+		} );
 	}
 };
