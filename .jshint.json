@@ -18,5 +18,8 @@
 	"unused": true,
 	"eqnull": true,
 	"strict": true,
-	"node": true
+	"node": true,
+	"globals": {
+		"Promise": true
+	}
 }

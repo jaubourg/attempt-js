@@ -1,5 +1,3 @@
-/* global Promise */
-
 "use strict";
 
 var Attempt = require( "../lib/Attempt.js" );
