@@ -1,10 +1,9 @@
 {
 	"name": "attempt-js",
-	"version": "0.0.1-pre",
+	"version": "0.0.1",
 	"author": "Julian Aubourg <j@ubourg.net> (http://jaubourg.net)",
 	"description": "abstract asynchronous tasks",
 	"main": "./lib/Attempt.js",
-	"preferGlobal": true,
 	"repository" : {
 		"type" : "git",
 		"url" : "http://github.com/jaubourg/attempt-js.git"
