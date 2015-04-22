@@ -7,7 +7,7 @@
 	"preferGlobal": true,
 	"repository" : {
 		"type" : "git",
-		"url" : "http://github.com/jaubourg/wires.git"
+		"url" : "http://github.com/jaubourg/attempt-js.git"
 	},
 	"engines": {
 		"node" : ">=0.12"
