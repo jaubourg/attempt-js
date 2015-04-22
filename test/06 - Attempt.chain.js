@@ -6,12 +6,14 @@ var forEachAction = require( "../lib/forEachAction.js" );
 var callForType = require( "./util/callForType.js" );
 var createTests = require( "./util/createTests.js" );
 
+var rPromise = /^promise-/;
+
 createTests( {
 	target: module.exports,
 	possibilities: {
 		before: [ "success", "failure", "progress" ],
 		beforeAsync: [ false, true ],
-		after: [ "success", "failure", "progress" ],
+		after: [ "success", "failure", "progress", "promise-success", "promise-failure" ],
 		afterAsync: [ false, true ]
 	},
 	name: function( options ) {
@@ -33,13 +35,21 @@ createTests( {
 		var chainArgs = [];
 		chainArgs[ callForType.indexes[ options.before ] ] = function( value ) {
 			value *= 2;
-			return options.after === options.before ? value : new Attempt( function() {
+			if ( options.after === options.before ) {
+				return value;
+			}
+			if ( rPromise.test( options.after ) ) {
+				return new Promise( function() {
+					callForType( arguments, options.afterAsync, options.after.replace( rPromise, "" ), value );
+				} );
+			}
+			return new Attempt( function() {
 				callForType( arguments, options.afterAsync, options.after, value );
 			} );
 		};
 		attempt = Attempt.prototype.chain.apply( attempt, chainArgs );
 		forEachAction( function( methodName ) {
-			attempt[ methodName ]( expectedCallback( methodName, options.after, 10 ) );
+			attempt[ methodName ]( expectedCallback( methodName, options.after.replace( rPromise, "" ), 10 ) );
 		} );
 		setTimeout( function() {
 			__.done();
