@@ -1,6 +1,6 @@
 {
 	"name": "attempt-js",
-	"version": "0.0.1",
+	"version": "0.0.2-pre",
 	"author": "Julian Aubourg <j@ubourg.net> (http://jaubourg.net)",
 	"description": "abstract asynchronous tasks",
 	"main": "./lib/Attempt.js",
