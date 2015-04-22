@@ -10,7 +10,7 @@
 		"url" : "http://github.com/jaubourg/wires.git"
 	},
 	"engines": {
-		"node" : ">=0.10"
+		"node" : ">=0.12"
 	},
 	"dependencies": {
 	},
