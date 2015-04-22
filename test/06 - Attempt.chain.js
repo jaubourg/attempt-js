@@ -19,32 +19,30 @@ createTests( {
 			" => " +
 			( options.afterAsync ? "Async " : "Sync " ) + options.after;
 	},
-	factory: function( options ) {
-		return function( __ ) {
-			function expectedCallback( type, expectedType, expectedValue ) {
-				return type === expectedType ? function( value ) {
-					__.strictEqual( value, expectedValue, type + " ok (" + value + ")" );
-				} : function( value ) {
-					__.ok( false, "unexpected " + type + " (" + value + ")" );
-				};
-			}
-			var attempt = new Attempt( function() {
-				callForType( arguments, options.beforeAsync, options.before, 5 );
-			} );
-			var chainArgs = [];
-			chainArgs[ callForType.indexes[ options.before ] ] = function( value ) {
-				value *= 2;
-				return options.after === options.before ? value : new Attempt( function() {
-					callForType( arguments, options.afterAsync, options.after, value );
-				} );
+	test: function( options, __ ) {
+		function expectedCallback( type, expectedType, expectedValue ) {
+			return type === expectedType ? function( value ) {
+				__.strictEqual( value, expectedValue, type + " ok (" + value + ")" );
+			} : function( value ) {
+				__.ok( false, "unexpected " + type + " (" + value + ")" );
 			};
-			attempt = Attempt.prototype.chain.apply( attempt, chainArgs );
-			forEachAction( function( methodName ) {
-				attempt[ methodName ]( expectedCallback( methodName, options.after, 10 ) );
+		}
+		var attempt = new Attempt( function() {
+			callForType( arguments, options.beforeAsync, options.before, 5 );
+		} );
+		var chainArgs = [];
+		chainArgs[ callForType.indexes[ options.before ] ] = function( value ) {
+			value *= 2;
+			return options.after === options.before ? value : new Attempt( function() {
+				callForType( arguments, options.afterAsync, options.after, value );
 			} );
-			setTimeout( function() {
-				__.done();
-			}, 10 );
 		};
+		attempt = Attempt.prototype.chain.apply( attempt, chainArgs );
+		forEachAction( function( methodName ) {
+			attempt[ methodName ]( expectedCallback( methodName, options.after, 10 ) );
+		} );
+		setTimeout( function() {
+			__.done();
+		}, 10 );
 	}
 } );

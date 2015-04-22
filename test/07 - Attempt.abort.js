@@ -30,48 +30,46 @@ createTests( {
 		return "abortable" + syncString + options.noAbortOutcome + " / " + ( options.callAbort ? "" : "no " ) +
 			"abort => " + ( options.outcome || "<silent>" );
 	},
-	factory: function( options ) {
-		return function( __ ) {
-			__.expect(
-				1 +
-					( options.callAbort ? 1 : 0 ) +
-					( options.abortCalled ? 1 : 0 ) +
-					( options.outcome ? 1 : 0 )
-			);
-			var attempt = new Attempt( function() {
-				var aborted = false;
-				var notifiers = arguments;
-				function doIt() {
-					if ( !aborted ) {
-						callForType( notifiers, false, options.noAbortOutcome, "OK" );
-					}
+	test: function( options, __ ) {
+		__.expect(
+			1 +
+				( options.callAbort ? 1 : 0 ) +
+				( options.abortCalled ? 1 : 0 ) +
+				( options.outcome ? 1 : 0 )
+		);
+		var attempt = new Attempt( function() {
+			var aborted = false;
+			var notifiers = arguments;
+			function doIt() {
+				if ( !aborted ) {
+					callForType( notifiers, false, options.noAbortOutcome, "OK" );
 				}
-				if ( options.async ) {
-					setTimeout( doIt, 10 );
-				} else {
-					doIt();
-				}
-				return options.abortable && function() {
-					__.ok( options.abortCalled, "aborted" );
-					aborted = true;
-				};
-			} );
-			__.strictEqual( !!attempt.abort, !!options.abortable, "abortable: " + options.abortable );
-			if ( options.callAbort ) {
-				__.strictEqual( attempt.abort(), !!options.abortCalled, "abort: " + options.abortCalled );
 			}
-			forEachAction( function( methodName ) {
-				attempt[ methodName ]( function( value ) {
-					if ( options.outcome ) {
-						__.strictEqual( value, "OK", methodName + " OK" );
-					} else {
-						__.ok( false, methodName + " NOK (" + value + ")" );
-					}
-				} );
+			if ( options.async ) {
+				setTimeout( doIt, 10 );
+			} else {
+				doIt();
+			}
+			return options.abortable && function() {
+				__.ok( options.abortCalled, "aborted" );
+				aborted = true;
+			};
+		} );
+		__.strictEqual( !!attempt.abort, !!options.abortable, "abortable: " + options.abortable );
+		if ( options.callAbort ) {
+			__.strictEqual( attempt.abort(), !!options.abortCalled, "abort: " + options.abortCalled );
+		}
+		forEachAction( function( methodName ) {
+			attempt[ methodName ]( function( value ) {
+				if ( options.outcome ) {
+					__.strictEqual( value, "OK", methodName + " OK" );
+				} else {
+					__.ok( false, methodName + " NOK (" + value + ")" );
+				}
 			} );
-			setTimeout( function() {
-				__.done();
-			}, 20 );
-		};
+		} );
+		setTimeout( function() {
+			__.done();
+		}, 20 );
 	}
 } );

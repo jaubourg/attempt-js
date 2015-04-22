@@ -16,7 +16,9 @@ module.exports = function( options ) {
 				copy[ key ] = object[ key ];
 			} );
 			if ( !options.check || options.check( copy ) ) {
-				options.target[ options.name( copy ) ] = options.factory( copy );
+				options.target[ options.name( copy ) ] = function( __ ) {
+					options.test( copy, __ );
+				};
 			}
 		}
 	}
