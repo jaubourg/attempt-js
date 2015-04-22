@@ -12,9 +12,7 @@ createTests( {
 		noAbortOutcome: [ "success", "failure" ],
 		async: [ true, false ],
 		abortable: [ true, false ],
-		callAbort: [ true, false ],
-		abortCalled: [ true ],
-		outcome: [ true ]
+		callAbort: [ true, false ]
 	},
 	check: function( options ) {
 		if ( options.callAbort && !options.abortable ) {
