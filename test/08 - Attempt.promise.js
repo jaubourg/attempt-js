@@ -1,5 +1,7 @@
 "use strict";
 
+require( "native-promise-only" );
+
 var Attempt = require( "../lib/Attempt.js" );
 var createTests = require( "./util/createTests" );
 
@@ -33,7 +35,7 @@ createTests( {
 		promise.then( handler( "success" ), handler( "failure" ) );
 		setTimeout( function() {
 			__.done();
-		}, 20 );
+		}, 200 );
 	}
 } );
 

@@ -1,5 +1,7 @@
 "use strict";
 
+require( "native-promise-only" );
+
 var Attempt = require( "../lib/Attempt.js" );
 
 var callForType = require( "./util/callForType.js" );
