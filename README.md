@@ -7,7 +7,143 @@
 
 # Attempt
 
-abstract asynchronous tasks
+Utility objects to represent and interact with asynchronous operations.
+
+## Install and use in Node
+
+1. Add the dependency: `npm install attempt-js --save`
+2. Import in your code and create new objects:
+   ```js
+   var Attempt = require( "attempt-js" );
+
+   var myAttempt = new Attempt( /* ... */ );
+   ```
+
+## Install and use in the Browser
+
+Use a tool like [Browserify](http://browserify.org/) or [webpack](http://webpack.github.io/).
+
+## Quick overview through code examples
+```js
+new Attempt( function( notifySuccess, notifyFailure, notifyProgress ) {
+    firstAsync( function( error ) {
+        notifyProgress( "first done" );
+        if ( error ) {
+            notifyFailure( error );
+        } else {
+            secondAsync( function( error, value ) {
+                notifyProgress( "second done" );
+                if ( error ) {
+                    notifyFailure( error );
+                } else {
+                    notifySuccess( "first done" );
+                }
+            } );
+        }
+    } );
+} ).progress( function( string ) {
+    // the progress string as notified
+} ).success( function( value ) {
+    // the value from secondAsync if successful
+} ).failure( function( error ) {
+    // the error otherwise
+} ).always( function() {
+    // always called (for successes AND failures)
+} );
+```
+
+### Chain
+
+```js
+var attempt = new Attempt( function( notifySuccess ) {
+    setTimeout( notifySuccess, 1000, 72 );
+} );
+
+attempt.success( function( value ) {
+    value === 72;
+} );
+
+attempt.chain( function( value ) {
+    return value * 2;
+} ).success( function( value ) {
+    value === 144;
+} );
+
+attempt.chain( function( value ) {
+    return new Attempt( function( notifySuccess ) {
+        setTimeout( notifySuccess, 1000, value * 2 );
+    } );
+} ).success( function( value ) {
+    value === 144;
+} );
+```
+
+### Join
+
+```js
+var helloWorld = new Attempt( function( notifySuccess ) {
+    notifySuccess( "hello", "world" );
+} );
+
+var sixteen = new Attempt( function( notifySuccess ) {
+    notifySuccess( 16 );
+} );
+
+Attempt.join( helloWorld, sixteen, true ).success( function( a, b, c ) {
+    // a is [ "hello", "world" ]
+    // b is 16
+    // c is true
+} );
+
+var failed = new Attempt( function( _, notifyFailure ) {
+    notifyFailure( "woops" );
+} );
+
+Attempt.join( helloWorld, failed ).failure( function( error ) {
+    error === "woops";
+} );
+```
+
+### Utilities
+
+```js
+var helloWorld = Attempt.success( "hello", "world" );
+
+helloWorld.success( function( a, b ) {
+    a === "hello";
+    b === "world";
+} );
+
+var failed = Attempt.failure( "woops" );
+
+failed.failure( function( arg ) {
+    arg === "woops";
+} );
+````
+
+### Consume Promises
+
+```js
+var promise = new Promise( function( resolve ) {
+    resolve( "YEAH!" );
+} );
+
+new Attempt( promise ).success( function( value ) {
+    value === "YEAH!";
+} );
+```
+
+### Produce Promises
+
+```js
+var attempt = new Attempt( function( notifySuccess ) {
+    notifySuccess( "YAWP!" );
+} );
+
+attempt.promise().then( function( value ) {
+    value === "YAWP!";
+} );
+```
 
 ## License
 
