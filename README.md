@@ -1,5 +1,3 @@
-[![Browser support][testling-image]][testling-url]
-
 [![NPM][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
@@ -163,7 +161,5 @@ Licensed under the [MIT license](https://raw.githubusercontent.com/jaubourg/wire
 [gratipay-url]: https://gratipay.com/jaubourg/
 [npm-image]: https://img.shields.io/npm/v/attempt-js.svg
 [npm-url]: https://npmjs.org/package/attempt-js
-[testling-image]: https://ci.testling.com/jaubourg/attempt-js.png
-[testling-url]: http://ci.testling.com/jaubourg/attempt-js
 [travis-image]: https://travis-ci.org/jaubourg/attempt-js.svg
 [travis-url]: https://travis-ci.org/jaubourg/attempt-js
