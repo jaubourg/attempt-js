@@ -20,12 +20,6 @@ function Nodeunit( tapeObject ) {
 	this.__tapeObject = tapeObject;
 }
 
-Nodeunit.prototype = {
-	expect: function( count ) {
-		this.__tapeObject.plan( count + 1 );
-	}
-};
-
 function createMethod( name ) {
 	var targetMethod = nodeunitToTapeMethod[ name ];
 	if ( targetMethod === true ) {
