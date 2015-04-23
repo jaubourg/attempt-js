@@ -42,7 +42,7 @@ createTests( {
 			var notifiers = arguments;
 			function doIt() {
 				if ( !aborted ) {
-					callForType( notifiers, false, options.noAbortOutcome, "OK" );
+					callForType( notifiers, false, options.noAbortOutcome, [ "OK" ] );
 				}
 			}
 			if ( options.async ) {

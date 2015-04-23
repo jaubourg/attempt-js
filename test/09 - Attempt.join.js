@@ -7,88 +7,113 @@ var createTests = require( "./util/createTests.js" );
 
 var rPromise = /^promise-/;
 var rValue = /^value-/;
-var rSuccess = /success$/;
 var rFailure = /failure$/;
 
-var firstSecondThird = [ "first", "second", "third" ];
+var firstSecond = [ "first", "second" ];
 
-function forEachParam( callback ) {
-	for ( var i = 0; i < 3; i++ ) {
-		callback( firstSecondThird[ i ] );
+function forEachParam( options, callback ) {
+	for ( var i = 0; i < 2; i++ ) {
+		callback( options[ firstSecond[ i ] ], options[ firstSecond[ i ] + "Async" ] );
 	}
 }
 
-function createParam( type, async ) {
+function createParam( type, async, args ) {
 	if ( type === "value-success" ) {
-		return "OK";
+		return args[ 0 ];
 	}
 	if ( rPromise.test( type ) ) {
 		return new Promise( function() {
-			callForType( arguments, async, type.replace( rPromise, "" ), rSuccess.test( type ) ? "OK" : "NOK" );
+			callForType( arguments, async, type.replace( rPromise, "" ), args );
 		} );
 	}
 	return new Attempt( function() {
-		callForType( arguments, async, type, rSuccess.test( type ) ? "OK" : "NOK" );
+		callForType( arguments, async, type, args );
 	} );
 }
+
+module.exports = {
+	"Attempt.join()": function( __ ) {
+		__.expect( 1 );
+		Attempt.join().success( function() {
+			__.strictEqual( arguments.length, 0, "no argument" );
+		} ).failure( function() {
+			__.ok( false, "failure" );
+		} ).always( function() {
+			__.done();
+		} );
+	},
+	"Attempt.joinArray( [] )": function( __ ) {
+		__.expect( 1 );
+		Attempt.joinArray( [] ).success( function() {
+			__.strictEqual( arguments.length, 0, "no argument" );
+		} ).failure( function() {
+			__.ok( false, "failure" );
+		} ).always( function() {
+			__.done();
+		} );
+	}
+};
 
 createTests( {
 	target: module.exports,
 	possibilities: {
+		array: [ false, true ],
 		first: [ "value-success", "success", "failure", "promise-success", "promise-failure" ],
-		firstAsync: [ true, false ],
 		second: [ "value-success", "success", "failure", "promise-success", "promise-failure" ],
+		firstAsync: [ true, false ],
 		secondAsync: [ true, false ],
-		third: [ "value-success", "success", "failure", "promise-success", "promise-failure" ],
-		thirdAsync: [ true, false ],
-		array: [ true, false ]
+		firstArgs: [ [], [ "string" ], [ 23, true ] ],
+		secondArgs: [ [], [ "string" ], [ 23, true ] ]
 	},
 	check: function( options ) {
 		var ok = true;
-		var success = true;
-		forEachParam( function( name ) {
-			if ( options[ name + "Async" ] && rValue.test( options[ name ] ) ) {
+		options.outcome = "success";
+		forEachParam( options, function( type, async ) {
+			if ( async && rValue.test( type ) ) {
 				ok = false;
 			}
-			if ( rFailure.test( options[ name ] ) ) {
-				success = false;
+			if ( rFailure.test( type ) ) {
+				options.outcome = "failure";
 			}
 		} );
-		options.outcome = success ? "success" : "failure";
+		options.outcomeValue = [
+			( !rPromise.test( options.first ) && !rValue.test( options.first ) && options.firstArgs.length > 1 ) ?
+				options.firstArgs : options.firstArgs[ 0 ],
+			( !rPromise.test( options.second ) && !rValue.test( options.second )  && options.secondArgs.length > 1 ) ?
+				options.secondArgs : options.secondArgs[ 0 ]
+		];
 		return ok;
 	},
 	name: function( options ) {
 		var params = [];
-		forEachParam( function( name ) {
+		forEachParam( options, function( type, async ) {
 			params.push(
-				rValue.test( options[ name ] ) ?
+				rValue.test( type ) ?
 				"value" :
-				( options[ name + "Async" ] ? "async " : "sync " ) + options[ name ]
+				( async ? "async " : "sync " ) + type
 			);
 		} );
 		return "Attempt.join" + ( options.array ? "Array" : "" ) + "( " + params.join( ", " ) + " ) => " +
-			options.outcome;
+			options.outcome + "( " + JSON.stringify( options.outcomeValue[ 0 ] ) + ", " +
+			JSON.stringify( options.outcomeValue[ 1 ] ) + " )";
 	},
 	test: function( options, __ ) {
-		__.expect( 2 );
+		__.expect( options.outcome === "failure" ? 1 : 2 );
 		(
 			options.array ?
 			Attempt.joinArray( [
-				createParam( options.first, options.firstAsync ),
-				createParam( options.second, options.secondAsync ),
-				createParam( options.third, options.thirdAsync )
+				createParam( options.first, options.firstAsync, options.firstArgs ),
+				createParam( options.second, options.secondAsync, options.secondArgs )
 			] ) :
 			Attempt.join(
-				createParam( options.first, options.firstAsync ),
-				createParam( options.second, options.secondAsync ),
-				createParam( options.third, options.thirdAsync )
+				createParam( options.first, options.firstAsync, options.firstArgs ),
+				createParam( options.second, options.secondAsync, options.secondArgs )
 			)
 		).success( function() {
 			__.ok( options.outcome === "success", "success" );
-			__.deepEqual( [].slice.apply( arguments ), [ "OK", "OK", "OK" ], "params OK" );
+			__.deepEqual( [].slice.apply( arguments ), options.outcomeValue, "params OK" );
 		} ).failure( function() {
 			__.ok( options.outcome === "failure" , "failure" );
-			__.deepEqual( [].slice.apply( arguments ), [ "NOK" ], "params OK" );
 		} ).always( function() {
 			__.done();
 		} );

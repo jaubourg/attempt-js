@@ -30,7 +30,7 @@ createTests( {
 			};
 		}
 		var attempt = new Attempt( function() {
-			callForType( arguments, options.beforeAsync, options.before, 5 );
+			callForType( arguments, options.beforeAsync, options.before, [ 5 ] );
 		} );
 		var chainArgs = [];
 		chainArgs[ callForType.indexes[ options.before ] ] = function( value ) {
@@ -40,11 +40,11 @@ createTests( {
 			}
 			if ( rPromise.test( options.after ) ) {
 				return new Promise( function() {
-					callForType( arguments, options.afterAsync, options.after.replace( rPromise, "" ), value );
+					callForType( arguments, options.afterAsync, options.after.replace( rPromise, "" ), [ value ] );
 				} );
 			}
 			return new Attempt( function() {
-				callForType( arguments, options.afterAsync, options.after, value );
+				callForType( arguments, options.afterAsync, options.after, [ value ] );
 			} );
 		};
 		attempt = Attempt.prototype.chain.apply( attempt, chainArgs );

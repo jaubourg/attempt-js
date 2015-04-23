@@ -6,11 +6,11 @@ var indexes = {
 	progress: 2
 };
 
-function callForType( args, async, type, value ) {
+function callForType( callbacks, async, type, args ) {
 	if ( async ) {
-		setTimeout( callForType, 2, args, false, type, value );
+		setTimeout( callForType, 2, callbacks, false, type, args );
 	} else {
-		args[ indexes[ type ] ]( value );
+		callbacks[ indexes[ type ] ].apply( null, args );
 	}
 }
 
