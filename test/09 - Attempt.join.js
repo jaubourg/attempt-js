@@ -119,3 +119,69 @@ createTests( {
 		} );
 	}
 } );
+
+function progressAttempt( progressValues ) {
+	progressValues = progressValues.slice();
+	return new Attempt( function( success, failure, progress ) {
+		function go() {
+			if ( progressValues.length ) {
+				setTimeout( go, 2 );
+				progress( progressValues.shift() );
+			} else {
+				success();
+			}
+		}
+		setTimeout( go, 2 );
+	} );
+}
+
+createTests( {
+	target: module.exports,
+	possibilities: {
+		array: [ false, true ],
+		progress1: [ [], [ 1 ], [ 1, 2 ] ],
+		progress2: [ [], [ 1 ], [ 1, 2 ] ]
+	},
+	check: function( options ) {
+		var length = Math.max( options.progress1.length, options.progress2.length );
+		var progressArray = [];
+		var latest = [ undefined, undefined ];
+		for ( var i = 0; i < length; i++ ) {
+			if ( i < options.progress1.length ) {
+				progressArray.push( ( latest = [ options.progress1[ i ], latest[ 1 ] ] ) );
+			}
+			if ( i < options.progress2.length ) {
+				progressArray.push( ( latest = [ latest[ 0 ], options.progress2[ i ] ] ) );
+			}
+		}
+		options.outcome = progressArray;
+		return true;
+	},
+	name: function( options ) {
+		return "Array.join" + ( options.array ? "Array " : " " ) + "/ progress ( " +
+			JSON.stringify( options.progress1 ) + ", " +
+			JSON.stringify( options.progress2 ) + ")";
+	},
+	test: function( options, __ ) {
+		__.expect( 1 + options.outcome.length );
+		var progressIndex = 0;
+		(
+			options.array ?
+				Attempt.joinArray( [
+					progressAttempt( options.progress1 ),
+					progressAttempt( options.progress2 )
+				] ) :
+				Attempt.join(
+					progressAttempt( options.progress1 ),
+					progressAttempt( options.progress2 )
+				)
+		).success( function() {
+			__.ok( true, "success" );
+		} ).progress( function() {
+			__.deepEqual( [].slice.call( arguments ), options.outcome[ ( progressIndex++ ) ],
+				"progress #" + progressIndex );
+		} ).always( function() {
+			__.done();
+		} );
+	}
+} );
