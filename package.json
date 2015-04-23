@@ -14,6 +14,7 @@
 	"dependencies": {
 	},
 	"devDependencies": {
+		"browserify": "9.0.8",
 		"coveralls": "2.11.2",
 		"grunt": "0.4.5",
 		"grunt-contrib-jshint": "0.11.1",

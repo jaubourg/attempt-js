@@ -55,6 +55,6 @@ createTests( {
 		} );
 		setTimeout( function() {
 			__.done();
-		}, 10 );
+		}, 50 );
 	}
 } );
