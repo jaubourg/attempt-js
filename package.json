@@ -15,7 +15,6 @@
 	},
 	"devDependencies": {
 		"browserify": "9.0.8",
-		"browserstack-runner": "0.3.0",
 		"coveralls": "2.11.2",
 		"es6-promise": "2.1.1",
 		"grunt": "0.4.5",
