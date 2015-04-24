@@ -8,7 +8,9 @@ var indexes = {
 
 function callForType( callbacks, async, type, args ) {
 	if ( async ) {
-		setTimeout( callForType, 2, callbacks, false, type, args );
+		setTimeout( function() {
+			callForType( callbacks, false, type, args );
+		}, 2 );
 	} else {
 		callbacks[ indexes[ type ] ].apply( null, args );
 	}

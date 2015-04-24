@@ -23,10 +23,12 @@ module.exports = {
 	"memory": function( __ ) {
 		__.expect( 3 );
 		var callbacks = repeatCallbacks();
-		setTimeout( callbacks.a, 10, function( param ) {
-			__.strictEqual( param, "ARG", "added later" );
-			__.done();
-		} );
+		setTimeout( function() {
+			callbacks.a( function( param ) {
+				__.strictEqual( param, "ARG", "added later" );
+				__.done();
+			} );
+		}, 10 );
 		callbacks.a( function( param ) {
 			__.strictEqual( param, "ARG", "added before" );
 		} ).f( "ARG" );
@@ -41,10 +43,12 @@ module.exports = {
 		callbacks.a( function() {
 			iteration++;
 		} );
-		setTimeout( callbacks.a, 10, function( param ) {
-			__.strictEqual( param, "ARG2", "added later" );
-			__.done();
-		} );
+		setTimeout( function() {
+			callbacks.a( function( param ) {
+				__.strictEqual( param, "ARG2", "added later" );
+				__.done();
+			} );
+		} , 10 );
 		callbacks.a( function( param ) {
 			__.strictEqual( param, "ARG" + iteration, "added before (" + iteration + ")" );
 		} ).f( "ARG1" );
@@ -56,9 +60,11 @@ module.exports = {
 	"lock": function( __ ) {
 		__.expect( 1 );
 		var callbacks = repeatCallbacks();
-		setTimeout( callbacks.a, 10, function() {
-			__.ok( false, "later" );
-		} );
+		setTimeout( function() {
+			callbacks.a( function() {
+				__.ok( false, "later" );
+			} );
+		}, 10 );
 		setTimeout( function() {
 			__.ok( true, "done" );
 			__.done();
@@ -73,10 +79,12 @@ module.exports = {
 	},
 	"lock after fire": function( __ ) {
 		var callbacks = repeatCallbacks();
-		setTimeout( callbacks.a, 10, function( param ) {
-			__.strictEqual( param, "ARG", "added later" );
-			__.done();
-		} );
+		setTimeout( function() {
+			callbacks.a( function( param ) {
+				__.strictEqual( param, "ARG", "added later" );
+				__.done();
+			} );
+		}, 10 );
 		callbacks.a( function( param ) {
 			__.strictEqual( param, "ARG", "added before" );
 		} ).f( "ARG" );

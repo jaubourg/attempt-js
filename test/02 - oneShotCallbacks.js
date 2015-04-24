@@ -24,10 +24,12 @@ module.exports = {
 	"memory": function( __ ) {
 		__.expect( 3 );
 		var callbacks = oneShotCallbacks();
-		setTimeout( callbacks.a, 10, function( param ) {
-			__.strictEqual( param, "ARG", "added later" );
-			__.done();
-		} );
+		setTimeout( function() {
+			callbacks.a( function( param ) {
+				__.strictEqual( param, "ARG", "added later" );
+				__.done();
+			} );
+		}, 10 );
 		callbacks.a( function( param ) {
 			__.strictEqual( param, "ARG", "added before" );
 		} ).f( "ARG" );
@@ -38,9 +40,11 @@ module.exports = {
 	"lock": function( __ ) {
 		__.expect( 1 );
 		var callbacks = oneShotCallbacks();
-		setTimeout( callbacks.a, 10, function() {
-			__.ok( false, "later" );
-		} );
+		setTimeout( function() {
+			callbacks.a( function() {
+				__.ok( false, "later" );
+			} );
+		}, 10 );
 		setTimeout( function() {
 			__.ok( true, "done" );
 			__.done();
