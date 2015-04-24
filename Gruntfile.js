@@ -87,7 +87,7 @@ module.exports = function( grunt ) {
 			}
 		}
 		console.log( tmp.map( function( item ) {
-			return "[![" + item.browser + "](https://img.shields.io/badge/" + item.badge + ".svg)]";
+			return "![" + item.browser + "](https://img.shields.io/badge/" + item.badge + ".svg)";
 		} ).join( "\n" ) );
 	} );
 };

@@ -10,8 +10,7 @@
 ![Chrome 14+](https://img.shields.io/badge/Chrome-14+-yellow.svg)
 ![Safari 4+](https://img.shields.io/badge/Safari-4+-blue.svg)
 ![Opera 11+](https://img.shields.io/badge/Opera-11+-red.svg)
-![iPhone 3+](https://img.shields.io/badge/iPhone-3+-lightgray.svg)
-![iPad all](https://img.shields.io/badge/iPad-all-lightgray.svg)
+![iOS 3+](https://img.shields.io/badge/iOS-3+-lightgray.svg)
 ![Android 4+](https://img.shields.io/badge/Android-4+-green.svg)
 
 # Attempt

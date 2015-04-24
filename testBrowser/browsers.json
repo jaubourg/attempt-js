@@ -19,12 +19,8 @@
 		"version": "11+",
 		"color": "red"
 	},
-	"iPhone": {
+	"iOS": {
 		"version": "3+",
-		"color": "lightgray"
-	},
-	"iPad": {
-		"version": "all",
 		"color": "lightgray"
 	},
 	"Android": {
