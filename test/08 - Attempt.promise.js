@@ -1,6 +1,6 @@
 "use strict";
 
-require( "native-promise-only" );
+require( "./util/Promise" );
 
 var Attempt = require( "../lib/Attempt.js" );
 var createTests = require( "./util/createTests" );
@@ -28,14 +28,13 @@ createTests( {
 		function handler( type ) {
 			return options.outcome === type ? function( value ) {
 				__.strictEqual( value, "OK", type );
+				__.done();
 			} : function() {
 				__.ok( false, type );
+				__.done();
 			};
 		}
 		promise.then( handler( "success" ), handler( "failure" ) );
-		setTimeout( function() {
-			__.done();
-		}, 200 );
 	}
 } );
 

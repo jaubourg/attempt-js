@@ -1,6 +1,6 @@
 "use strict";
 
-require( "native-promise-only" );
+require( "./util/Promise" );
 
 var Attempt = require( "../lib/Attempt.js" );
 

@@ -1,6 +1,6 @@
 "use strict";
 
-require( "native-promise-only" );
+require( "./util/Promise" );
 
 var Attempt = require( "../lib/Attempt.js" );
 var forEachAction = require( "../lib/forEachAction.js" );
@@ -27,8 +27,10 @@ createTests( {
 		function expectedCallback( type, expectedType, expectedValue ) {
 			return type === expectedType ? function( value ) {
 				__.strictEqual( value, expectedValue, type + " ok (" + value + ")" );
+				__.done();
 			} : function( value ) {
 				__.ok( false, "unexpected " + type + " (" + value + ")" );
+				__.done();
 			};
 		}
 		var attempt = new Attempt( function() {
@@ -53,8 +55,5 @@ createTests( {
 		forEachAction( function( methodName ) {
 			attempt[ methodName ]( expectedCallback( methodName, options.after.replace( rPromise, "" ), 10 ) );
 		} );
-		setTimeout( function() {
-			__.done();
-		}, 50 );
 	}
 } );
