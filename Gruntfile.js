@@ -74,4 +74,20 @@ module.exports = function( grunt ) {
 		"shell:testWithCoverage",
 		"shell:coveralls"
 	] );
+
+	grunt.registerTask( "browser-badges", function() {
+		var data = require( "./testBrowser/browsers.json" );
+		var tmp = [];
+		for ( var key in data ) {
+			if ( data.hasOwnProperty( key ) ) {
+				tmp.push( {
+					browser: key + " " + data[ key ].version,
+					badge: key + "-" + data[ key ].version + "-" + data[ key ].color
+				} );
+			}
+		}
+		console.log( tmp.map( function( item ) {
+			return "[![" + item.browser + "](https://img.shields.io/badge/" + item.badge + ".svg)]";
+		} ).join( "\n" ) );
+	} );
 };

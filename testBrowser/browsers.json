@@ -1,10 +1,34 @@
 {
-	"explorer" : { "6+" : true },
-	"firefox" : { "3.6+" : true },
-	"chrome" : { "14+" : true },
-	"safari" : { "4+" : true },
-	"opera" : { "11+" : true },
-	"iphone": { "3+": true },
-	"ipad": { "all": true },
-	"android-browser": { "4+": true }
+	"IE" : {
+		"version": "6+",
+		"color": "blue"
+	},
+	"Firefox" : {
+		"version": "3.6+",
+		"color": "orange"
+	},
+	"Chrome" : {
+		"version": "14+",
+		"color": "yellow"
+	},
+	"Safari" : {
+		"version": "4+",
+		"color": "blue"
+	},
+	"Opera" : {
+		"version": "11+",
+		"color": "red"
+	},
+	"iPhone": {
+		"version": "3+",
+		"color": "lightgray"
+	},
+	"iPad": {
+		"version": "all",
+		"color": "lightgray"
+	},
+	"Android": {
+		"version": "4+",
+		"color": "green"
+	}
 }

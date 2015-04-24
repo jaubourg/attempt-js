@@ -5,6 +5,15 @@
 [![devDependency Status][devDependency-image]][devDependency-url]
 [![gratipay][gratipay-image]][gratipay-url]
 
+![IE 6+](https://img.shields.io/badge/IE-6+-blue.svg)
+![Firefox 3.6+](https://img.shields.io/badge/Firefox-3.6+-orange.svg)
+![Chrome 14+](https://img.shields.io/badge/Chrome-14+-yellow.svg)
+![Safari 4+](https://img.shields.io/badge/Safari-4+-blue.svg)
+![Opera 11+](https://img.shields.io/badge/Opera-11+-red.svg)
+![iPhone 3+](https://img.shields.io/badge/iPhone-3+-lightgray.svg)
+![iPad all](https://img.shields.io/badge/iPad-all-lightgray.svg)
+![Android 4+](https://img.shields.io/badge/Android-4+-green.svg)
+
 # Attempt
 
 Utility objects to represent and interact with asynchronous operations.
