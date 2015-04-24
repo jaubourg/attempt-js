@@ -1,0 +1,10 @@
+{
+	"test_framework": "qunit",
+	"test_path": "testBrowser",
+	"browsers": [
+		"chrome_previous",
+		"chrome_latest",
+		"firefox_previous",
+		"firefox_latest"
+	]
+}
