@@ -19,7 +19,9 @@ createTests( {
 		var promise = new Attempt( function( success, failure ) {
 			var func = options.outcome === "success" ? success : failure;
 			if ( options.async ) {
-				setTimeout( func, 10, "OK" );
+				setTimeout( function() {
+					func( "OK" );
+				}, 10 );
 			} else {
 				func( "OK" );
 			}
