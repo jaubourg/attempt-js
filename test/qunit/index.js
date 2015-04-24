@@ -2,7 +2,7 @@
 
 /* global QUnit */
 
-require( "native-promise-only" );
+require( "../util/Promise" );
 
 var qUnitToNodeunit = require( "./qUnitToNodeunit" );
 
