@@ -1,0 +1,10 @@
+{
+	"explorer" : { "6+" : true },
+	"firefox" : { "3.6+" : true },
+	"chrome" : { "14+" : true },
+	"safari" : { "4+" : true },
+	"opera" : { "11+" : true },
+	"iphone": { "3+": true },
+	"ipad": { "all": true },
+	"android-browser": { "4+": true }
+}
