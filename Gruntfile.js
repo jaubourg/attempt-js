@@ -34,9 +34,6 @@ module.exports = function( grunt ) {
 			browserify: {
 				command: command( "browserify test/qunit > testBrowser/index.js" )
 			},
-			browserstack: {
-				command: command( "browserstack-runner" )
-			},
 			coveralls: {
 				command: command( "coveralls < " + lcov )
 			},
@@ -76,10 +73,5 @@ module.exports = function( grunt ) {
 		"coverage-file-manipulation",
 		"shell:testWithCoverage",
 		"shell:coveralls"
-	] );
-
-	grunt.registerTask( "browser", [
-		"shell:browserify",
-		"shell:browserstack"
 	] );
 };
