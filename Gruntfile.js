@@ -32,7 +32,7 @@ module.exports = function( grunt ) {
 		},
 		shell: {
 			browserify: {
-				command: command( "browserify test/qunit > testBrowser/index.js" )
+				command: command( "browserify build/browser/index.js > browser/index.js" )
 			},
 			coveralls: {
 				command: command( "coveralls < " + lcov )
@@ -75,8 +75,24 @@ module.exports = function( grunt ) {
 		"shell:coveralls"
 	] );
 
+	// Browser test generation
+	grunt.registerTask( "browser-files", function() {
+		var dir = path.resolve( __dirname, "browser" );
+		var depDir = path.resolve( __dirname, "node_modules" );
+		try {
+			fs.mkdirSync( dir );
+		} catch ( e ) {}
+		fs.writeFileSync( dir + "/qunit.css", fs.readFileSync( depDir + "/qunitjs/qunit/qunit.css" ) );
+		fs.writeFileSync( dir + "/index.html", fs.readFileSync( __dirname + "/build/browser/index.html" ) );
+	} );
+
+	grunt.registerTask( "browser", [
+		"browser-files",
+		"shell:browserify"
+	] );
+
 	grunt.registerTask( "browser-badges", function() {
-		var data = require( "./testBrowser/browsers.json" );
+		var data = require( "./build/browsers.json" );
 		var tmp = [];
 		for ( var key in data ) {
 			if ( data.hasOwnProperty( key ) ) {

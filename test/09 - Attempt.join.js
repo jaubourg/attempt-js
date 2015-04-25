@@ -96,8 +96,8 @@ createTests( {
 			);
 		} );
 		return "Attempt.join" + ( options.array ? "Array" : "" ) + "( " + params.join( ", " ) + " ) => " +
-			options.outcome + "( " + JSON.stringify( options.outcomeValue[ 0 ] ) + ", " +
-			JSON.stringify( options.outcomeValue[ 1 ] ) + " )";
+			options.outcome + "( [ " + options.firstArgs.join( ", " ) + " ], " +
+			"[ " + options.secondArgs.join( ", " ) + " ] )";
 	},
 	test: function( options, __ ) {
 		__.expect( options.outcome === "failure" ? 1 : 2 );
@@ -161,8 +161,8 @@ createTests( {
 	},
 	name: function( options ) {
 		return "Array.join" + ( options.array ? "Array " : " " ) + "/ progress ( " +
-			JSON.stringify( options.progress1 ) + ", " +
-			JSON.stringify( options.progress2 ) + ")";
+			"[ " + options.progress1.join( ", " ) + " ], " +
+			"[ " + options.progress2.join( ", " ) + " ] )";
 	},
 	test: function( options, __ ) {
 		__.expect( 1 + options.outcome.length );
