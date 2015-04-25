@@ -157,7 +157,7 @@ attempt.promise().then( function( value ) {
 
 Copyright (c) 2015 [Julian Aubourg](mailto:j@ubourg.net)
 
-Licensed under the [MIT license](https://raw.githubusercontent.com/jaubourg/wires/master/LICENSE-MIT).
+Licensed under the [MIT license](https://raw.githubusercontent.com/jaubourg/attempt-js/master/LICENSE-MIT).
 
 [coveralls-image]: https://img.shields.io/coveralls/jaubourg/attempt-js.svg
 [coveralls-url]: https://coveralls.io/r/jaubourg/attempt-js
