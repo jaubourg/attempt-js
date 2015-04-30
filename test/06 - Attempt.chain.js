@@ -33,7 +33,7 @@ createTests( {
 				__.done();
 			};
 		}
-		var attempt = new Attempt( function() {
+		var attempt = Attempt( function() {
 			callForType( arguments, options.beforeAsync, options.before, [ 5 ] );
 		} );
 		var chainArgs = [];
@@ -47,7 +47,7 @@ createTests( {
 					callForType( arguments, options.afterAsync, options.after.replace( rPromise, "" ), [ value ] );
 				} );
 			}
-			return new Attempt( function() {
+			return Attempt( function() {
 				callForType( arguments, options.afterAsync, options.after, [ value ] );
 			} );
 		};

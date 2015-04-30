@@ -28,7 +28,7 @@ function createParam( type, async, args ) {
 			callForType( arguments, async, type.replace( rPromise, "" ), args );
 		} );
 	}
-	return new Attempt( function() {
+	return Attempt( function() {
 		callForType( arguments, async, type, args );
 	} );
 }
@@ -124,7 +124,7 @@ createTests( {
 
 function progressAttempt( progressValues ) {
 	progressValues = progressValues.slice();
-	return new Attempt( function( success, failure, progress ) {
+	return Attempt( function( success, failure, progress ) {
 		function go() {
 			if ( progressValues.length ) {
 				setTimeout( go, 2 );

@@ -37,7 +37,7 @@ createTests( {
 				( options.abortCalled ? 1 : 0 ) +
 				( options.outcome ? 1 : 0 )
 		);
-		var attempt = new Attempt( function() {
+		var attempt = Attempt( function() {
 			var aborted = false;
 			var notifiers = arguments;
 			function doIt() {

@@ -25,6 +25,9 @@ Utility objects to represent and interact with asynchronous operations.
    var Attempt = require( "attempt-js" );
 
    var myAttempt = new Attempt( /* ... */ );
+
+   // Note that 'new' is facultative!
+   var myOtherAttempt = Attempt( /* ... */ );
    ```
 
 ## Install and use in the Browser
@@ -33,7 +36,7 @@ Use a tool like [Browserify](http://browserify.org/) or [webpack](http://webpack
 
 ## Quick overview through code examples
 ```js
-new Attempt( function( notifySuccess, notifyFailure, notifyProgress ) {
+Attempt( function( notifySuccess, notifyFailure, notifyProgress ) {
     firstAsync( function( error ) {
         notifyProgress( "first done" );
         if ( error ) {
@@ -63,7 +66,7 @@ new Attempt( function( notifySuccess, notifyFailure, notifyProgress ) {
 ### Chain
 
 ```js
-var attempt = new Attempt( function( notifySuccess ) {
+var attempt = Attempt( function( notifySuccess ) {
     setTimeout( notifySuccess, 1000, 72 );
 } );
 
@@ -78,7 +81,7 @@ attempt.chain( function( value ) {
 } );
 
 attempt.chain( function( value ) {
-    return new Attempt( function( notifySuccess ) {
+    return Attempt( function( notifySuccess ) {
         setTimeout( notifySuccess, 1000, value * 2 );
     } );
 } ).success( function( value ) {
@@ -89,11 +92,11 @@ attempt.chain( function( value ) {
 ### Join
 
 ```js
-var helloWorld = new Attempt( function( notifySuccess ) {
+var helloWorld = Attempt( function( notifySuccess ) {
     notifySuccess( "hello", "world" );
 } );
 
-var sixteen = new Attempt( function( notifySuccess ) {
+var sixteen = Attempt( function( notifySuccess ) {
     notifySuccess( 16 );
 } );
 
@@ -103,7 +106,7 @@ Attempt.join( helloWorld, sixteen, true ).success( function( a, b, c ) {
     // c is true
 } );
 
-var failed = new Attempt( function( _, notifyFailure ) {
+var failed = Attempt( function( _, notifyFailure ) {
     notifyFailure( "woops" );
 } );
 
@@ -136,7 +139,7 @@ var promise = new Promise( function( resolve ) {
     resolve( "YEAH!" );
 } );
 
-new Attempt( promise ).success( function( value ) {
+Attempt( promise ).success( function( value ) {
     value === "YEAH!";
 } );
 ```
@@ -144,7 +147,7 @@ new Attempt( promise ).success( function( value ) {
 ### Produce Promises
 
 ```js
-var attempt = new Attempt( function( notifySuccess ) {
+var attempt = Attempt( function( notifySuccess ) {
     notifySuccess( "YAWP!" );
 } );
 

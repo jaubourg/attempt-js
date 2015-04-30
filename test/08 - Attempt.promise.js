@@ -16,7 +16,7 @@ createTests( {
 	},
 	test: function( options, __ ) {
 		__.expect( 2 );
-		var promise = new Attempt( function( success, failure ) {
+		var promise = Attempt( function( success, failure ) {
 			var func = options.outcome === "success" ? success : failure;
 			if ( options.async ) {
 				setTimeout( function() {
@@ -47,7 +47,7 @@ createTests( {
 		async: [ true, false ]
 	},
 	name: function( options ) {
-		return "new Attempt( promise )" + ( options.async ? " async " : " sync " ) + options.outcome;
+		return "Attempt( promise )" + ( options.async ? " async " : " sync " ) + options.outcome;
 	},
 	test: function( options, __ ) {
 		__.expect( 1 );
@@ -58,7 +58,7 @@ createTests( {
 				__.ok( false, type );
 			};
 		}
-		new Attempt( new Promise( function( success, failure ) {
+		Attempt( new Promise( function( success, failure ) {
 			var func = options.outcome === "success" ? success : failure;
 			if ( options.async ) {
 				setTimeout( function() {

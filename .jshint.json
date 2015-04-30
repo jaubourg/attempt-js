@@ -9,6 +9,7 @@
 	"maxdepth": 5,
 	"maxparams": 4,
 	"maxstatements": 20,
+	"newcap": false,
 	"noarg": true,
 	"nocomma": true,
 	"nonbsp": true,
