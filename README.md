@@ -118,14 +118,14 @@ Attempt.join( helloWorld, failed ).failure( function( error ) {
 ### Utilities
 
 ```js
-var helloWorld = Attempt.success( "hello", "world" );
+var helloWorld = Attempt.createSuccess( "hello", "world" );
 
 helloWorld.success( function( a, b ) {
     a === "hello";
     b === "world";
 } );
 
-var failed = Attempt.failure( "woops" );
+var failed = Attempt.createFailure( "woops" );
 
 failed.failure( function( arg ) {
     arg === "woops";

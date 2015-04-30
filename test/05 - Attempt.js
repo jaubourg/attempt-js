@@ -79,7 +79,7 @@ module.exports = {
 	},
 	"Attempt.success": function( __ ) {
 		__.expect( 1 );
-		Attempt.success( "OK" ).success( function( value ) {
+		Attempt.createSuccess( "OK" ).success( function( value ) {
 			__.strictEqual( value, "OK", "success" );
 		} ).always( function() {
 			__.done();
@@ -87,7 +87,7 @@ module.exports = {
 	},
 	"Attempt.failure": function( __ ) {
 		__.expect( 1 );
-		Attempt.failure( "OK" ).failure( function( value ) {
+		Attempt.createFailure( "OK" ).failure( function( value ) {
 			__.strictEqual( value, "OK", "success" );
 		} ).always( function() {
 			__.done();
